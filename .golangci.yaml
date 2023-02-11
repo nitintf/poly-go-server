@@ -1,0 +1,63 @@
+run:
+  deadline: 5m
+  modules-download-mode: vendor
+  skip-dirs: # list of directories that are not checked by linter
+      - vendor
+      - charts
+      - protos
+      - scripts
+output:
+    sort-results: true # sorts the linting error by filepath, line and column.
+linters-settings: # More informations here: https://golangci-lint.run/usage/configuration/
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+  goimports:
+    local-prefixes: github.com/nitintf/graph-go
+  unparam:
+    check-exported: true
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  govet:
+    check-shadowing: true
+  lll: 
+    line-length: 128
+    tab-width: 2
+    autofix: true
+  cyclop:
+    max-complexity: 20
+  nestif:
+    min-complexity: 10
+linters:
+  enable:
+    - goconst
+    - gocritic
+    - gofmt
+    - goimports
+    - misspell
+    - stylecheck
+    - revive
+    - unparam
+    - gosimple
+    - unused
+    - lll
+    - typecheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - cyclop
+    - durationcheck
+    - errorlint
+    - errname
+    - exhaustive
+    - exportloopref
+    - gocognit
+    - gocyclo
+    - gosec
+    - nestif
+    - nilerr
+    - prealloc
+    - predeclared
+    - whitespace

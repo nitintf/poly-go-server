@@ -1,0 +1,57 @@
+scalar Time
+
+enum UserRole {
+	ADMIN
+	USER
+}
+
+# User Model
+type User {
+	id: ID!
+	email: String
+	fullName: String
+	emailVerified: Boolean
+	active: Boolean
+	role: UserRole
+	groups: [Groups]
+	avatarUrl: String
+	issuer: UserIssuer
+	createdAt: Time
+	updatedAt: Time
+	deletedAt: Time
+}
+
+# ----------- Payloads -----------
+input RegisterUserInput {
+	firstName: String! @binding(constraint: "required,min=2,max=30")
+	userName: String! @binding(constraint: "required,min=2,max=20")
+	lastName: String! @binding(constraint: "required,min=2,max=20")
+	email: String! @binding(constraint: "required,email")
+	password: String! @binding(constraint: "required,min=6,max=40")
+}
+
+input LoginInput {
+	email: String! @binding(constraint: "required,email")
+	password: String! @binding(constraint: "requred,min=6,max=40")
+}
+
+type TokenResponse {
+	token: String!
+	refreshToken: String!
+}
+
+type RefreshTokenResponse {
+	token: String!
+}
+
+# ----------- User Querys -----------
+type Query {
+	me: User!
+}
+
+# ----------- User Mutations -----------
+type Mutation {
+	register(input: RegisterUserInput!): TokenResponse
+	login(input: LoginInput): TokenResponsse
+	updateUser(input: UserInput): User!
+}

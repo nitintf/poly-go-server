@@ -1,0 +1,14 @@
+FROM golang:1.19-alpine
+
+ENV GO111MODULE on
+
+RUN apk --update add openssh git alpine-sdk bash findutils
+
+# Install tools required for project
+# Run `docker build --no-cache .` to update dependencies
+RUN go install -v -mod=mod github.com/codegangsta/gin@latest
+
+WORKDIR /go/src/github.com/nitintf/graph-go
+
+# Copy the entire project and build it
+COPY . /go/src/github.com/nitintf/graph-go/

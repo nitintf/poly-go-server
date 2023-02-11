@@ -1,0 +1,5 @@
+directive @binding(
+	constraint: String!
+) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+
+# directive @hasRole() on FIELD_DEFINITION
