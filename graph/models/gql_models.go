@@ -2,28 +2,69 @@
 
 package models
 
-type LoginResponse struct {
-	Token        string `json:"token"`
-	RefreshToken string `json:"refreshToken"`
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type LoginInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type RefreshTokenResponse struct {
 	Token string `json:"token"`
 }
 
-type UserInput struct {
-	FirstName string `json:"firstName"`
-	UserName  string `json:"userName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+type RegisterUserInput struct {
+	FullName string `json:"fullName"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
-type UserPayload struct {
-	User *User `json:"user"`
+type TokenResponse struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
-type UsersPayload struct {
-	Users []*User `json:"users"`
-	Total int     `json:"total"`
+type UserRole string
+
+const (
+	UserRoleAdmin UserRole = "ADMIN"
+	UserRoleUser  UserRole = "USER"
+)
+
+var AllUserRole = []UserRole{
+	UserRoleAdmin,
+	UserRoleUser,
+}
+
+func (e UserRole) IsValid() bool {
+	switch e {
+	case UserRoleAdmin, UserRoleUser:
+		return true
+	}
+	return false
+}
+
+func (e UserRole) String() string {
+	return string(e)
+}
+
+func (e *UserRole) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserRole(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserRole", str)
+	}
+	return nil
+}
+
+func (e UserRole) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

@@ -4,42 +4,22 @@ import (
 	"context"
 	"errors"
 
-	"github.com/nitintf/graph-go/graph/models"
+	"poly-go-server/graph/models"
 )
 
-func (r *Resolver) Users(ctx context.Context) (*models.UsersPayload, error) {
-	r.logger.Info().Msg("Listin all users - start")
-
-	// users := r.db.Repos.UsersRepo.
-
-	// var queryMods []qm.QueryMod
-
-	// users, count, err := daos.FindAllUsersWithCount(queryMods, ctx)
-
-	// return &graphmodels.UsersPayload{Total: int(count), Users: utils.UsersToGraphQlUsers(users)}, err
-	return nil, nil
-}
-
-func (r *Resolver) CreateUser(ctx context.Context, input models.UserInput) (*models.User, error) {
+func (r *Resolver) Register(ctx context.Context, input models.RegisterUserInput) (*models.TokenResponse, error) {
 	_, err := r.db.UsersRepo.GetUserByEmail(input.Email)
 
 	if err == nil {
 		return nil, errors.New("email already exists")
 	}
 
-	_, err = r.db.UsersRepo.GetUserByUsername(input.UserName)
-	if err == nil {
-		return nil, errors.New("username already in used")
-	}
-
 	user := &models.User{
-		Username:  input.UserName,
-		Email:     input.Email,
-		FirstName: input.FirstName,
-		LastName:  input.LastName,
+
+		Email: input.Email,
 	}
 
-	tx, err := r.db.UsersRepo.DB.Begin()
+	tx, err := r.db.Client.Begin()
 
 	if err != nil {
 		r.logger.Fatal().Err(err).Msg("error creating a transaction")
@@ -62,7 +42,7 @@ func (r *Resolver) CreateUser(ctx context.Context, input models.UserInput) (*mod
 	return userRes, nil
 }
 
-func (r *Resolver) UpdateUser(ctx context.Context, input models.UserInput) (*models.User, error) {
+func (r *Resolver) Login(ctx context.Context, input models.LoginInput) (*models.TokenResponse, error) {
 	r.logger.Info().Msg("Listin all users - start")
 	return nil, nil
 }

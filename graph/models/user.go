@@ -10,15 +10,18 @@ import (
 )
 
 type User struct {
-	ID        string     `json:"id"`
-	Username  string     `json:"username"`
-	Email     string     `json:"email"`
-	Password  string     `json:"password"`
-	FirstName string     `json:"first_name"`
-	LastName  string     `json:"last_last"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"-" pg:",soft_delete"`
+	ID            string     `json:"id"`
+	FullName      string     `json:"full_name"`
+	Email         string     `json:"email"`
+	Password      string     `json:"password"`
+	Active        bool       `json:"active"`
+	EmailVerified bool       `json:"email_verified"`
+	Role          UserRole   `json:"role"`
+	AvatarURL     string     `json:"avatar_url"`
+	Groups        []Groups   `json:"groups" pg:"many2many:user_groups"`
+	CreatedAt     time.Time  `json:"created_at"`
+	UpdatedAt     time.Time  `json:"updated_at"`
+	DeletedAt     *time.Time `json:"-" pg:",soft_delete"`
 }
 
 var _ pg.BeforeInsertHook = (*User)(nil)

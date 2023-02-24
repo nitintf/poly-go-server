@@ -1,7 +1,8 @@
 package logging
 
 import (
-	"github.com/nitintf/graph-go/internal/config"
+	"poly-go-server/internal/config"
+
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )

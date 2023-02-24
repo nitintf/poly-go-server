@@ -3,9 +3,10 @@ package db
 import (
 	"context"
 
+	"poly-go-server/internal/config"
+
 	"github.com/go-pg/pg/v10"
 	_ "github.com/lib/pq"
-	"github.com/nitintf/graph-go/internal/config"
 	"github.com/rs/zerolog/log"
 )
 

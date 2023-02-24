@@ -2,20 +2,20 @@ FROM golang:1.19-alpine as builder
 
 ENV GO111MODULE on
 
-WORKDIR /go/src/github.com/nitintf/graph-go
+WORKDIR /poly-go-server
 
 # COPY go.mod, go.sum and download the dependencies
 COPY go.* ./
 RUN go mod download
 
 # Copy the entire project and build it
-COPY . /go/src/github.com/nitintf/graph-go/
+COPY . /poly-go-server
 
 RUN go build -ldflags -o server ./cmd/server
 
 FROM alpine:latest
-COPY --from=builder /go/src/github.com/nitintf/graph-go /go/src/github.com/nitintf/graph-go
+COPY --from=builder /poly-go-server /poly-go-server
 
 EXPOSE 8080
 
-ENTRYPOINT ["./go/src/github.com/nitintf/graph-go/server"]
+ENTRYPOINT ["./poly-go-server/server"]

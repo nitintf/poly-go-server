@@ -35,13 +35,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    working_dir: /go/src/github.com/nitintf/graph-go
+    working_dir: /poly-go-server
     entrypoint: make api-run
     env_file:
       - ./.env.local
     tty: true
     volumes:
-      - .:/go/src/github.com/nitintf/graph-go
+      - .:/poly-go-server
     ports:
       - "8080:8602"
     depends_on:

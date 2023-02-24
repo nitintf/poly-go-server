@@ -39,7 +39,7 @@ resolver:
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
 # autobind:
-#  - "github.com/nitintf/graph-go/graph/model"
+#  - "poly-go-server/graph/model"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
@@ -59,4 +59,6 @@ models:
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
   User:
-   model: github.com/nitintf/graph-go/graph/models.User
+   model: poly-go-server/graph/models.User
+  Groups:
+    model: "poly-go-server/graph/models.Groups"

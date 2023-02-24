@@ -3,7 +3,7 @@ package resolver
 import (
 	"context"
 
-	"github.com/nitintf/graph-go/graph/models"
+	"poly-go-server/graph/models"
 )
 
 // This file will not be regenerated automatically.
@@ -15,8 +15,7 @@ type Resolver struct {
 }
 
 type ResolverImpl interface {
-	Users(ctx context.Context) (*models.UsersPayload, error)
-	CreateUser(ctx context.Context, input models.UserInput) (*models.User, error)
-	UpdateUser(ctx context.Context, input models.UserInput) (*models.User, error)
+	Register(ctx context.Context, input models.RegisterUserInput) (*models.TokenResponse, error)
+	Login(ctx context.Context, input models.LoginInput) (*models.TokenResponse, error)
 	Me(ctx context.Context) (*models.User, error)
 }

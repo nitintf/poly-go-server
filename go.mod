@@ -1,4 +1,4 @@
-module github.com/nitintf/graph-go
+module poly-go-server
 
 go 1.19
 

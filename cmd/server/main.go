@@ -8,6 +8,14 @@ import (
 	"strings"
 	"time"
 
+	"poly-go-server/graph/backend"
+	"poly-go-server/graph/directives"
+	"poly-go-server/graph/generated"
+	"poly-go-server/graph/resolver"
+	"poly-go-server/internal/config"
+	"poly-go-server/internal/db"
+	"poly-go-server/internal/logging"
+
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -15,13 +23,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gorilla/websocket"
-	"github.com/nitintf/graph-go/graph/backend"
-	"github.com/nitintf/graph-go/graph/directives"
-	"github.com/nitintf/graph-go/graph/generated"
-	"github.com/nitintf/graph-go/graph/resolver"
-	"github.com/nitintf/graph-go/internal/config"
-	"github.com/nitintf/graph-go/internal/db"
-	"github.com/nitintf/graph-go/internal/logging"
 	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -41,20 +42,18 @@ func main() {
 	logger := logging.New(cfg)
 	ctx = logger.WithContext(ctx)
 
-	db := db.New(cfg, ctx)
-
-	defer db.Client.Close()
+	dbClient := db.New(cfg, ctx)
 
 	// The server should never exit unless something is wrong.
 	logger.Info().Str("ListenAdress", cfg.Port).Msgf("Starting %s service", cfg.ServiceName)
-	err = http.ListenAndServe(":"+cfg.Port, getMux(logger, db))
+	err = http.ListenAndServe(":"+cfg.Port, getMux(logger, dbClient))
 
 	if err != nil {
 		logger.Fatal().Err(err).Msg("Server exit")
 	}
 }
 
-func getMux(l *zerolog.Logger, db *db.Client) http.Handler {
+func getMux(l *zerolog.Logger, dbClient *db.Client) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(rw http.ResponseWriter, _ *http.Request) {
 		fmt.Fprint(rw, "Hello!")
@@ -64,7 +63,7 @@ func getMux(l *zerolog.Logger, db *db.Client) http.Handler {
 
 	gqlgenConfig := generated.Config{
 		Resolvers: &resolver.Resolver{
-			Impl: backend.InitResolvers(l, db),
+			Impl: backend.InitResolvers(l, dbClient),
 		},
 	}
 	gqlgenConfig.Directives.Binding = directives.Binding

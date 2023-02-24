@@ -1,7 +1,8 @@
 package backend
 
 import (
-	"github.com/nitintf/graph-go/internal/db"
+	"poly-go-server/internal/db"
+
 	"github.com/rs/zerolog"
 )
 

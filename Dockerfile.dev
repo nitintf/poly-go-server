@@ -8,7 +8,7 @@ RUN apk --update add openssh git alpine-sdk bash findutils
 # Run `docker build --no-cache .` to update dependencies
 RUN go install -v -mod=mod github.com/codegangsta/gin@latest
 
-WORKDIR /go/src/github.com/nitintf/graph-go
+WORKDIR /poly-go-server
 
 # Copy the entire project and build it
-COPY . /go/src/github.com/nitintf/graph-go/
+COPY . /poly-go-server

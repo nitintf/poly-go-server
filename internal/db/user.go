@@ -3,8 +3,9 @@ package db
 import (
 	"fmt"
 
+	"poly-go-server/graph/models"
+
 	"github.com/go-pg/pg/v10"
-	"github.com/nitintf/graph-go/graph/models"
 )
 
 type UsersRepo struct {

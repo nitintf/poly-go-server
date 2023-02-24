@@ -6,24 +6,20 @@ package resolver
 
 import (
 	"context"
-
-	"github.com/nitintf/graph-go/graph/generated"
-	"github.com/nitintf/graph-go/graph/models"
+	"fmt"
+	"poly-go-server/graph/generated"
+	"poly-go-server/graph/models"
 )
 
-// CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, input models.UserInput) (*models.User, error) {
-	return r.Impl.CreateUser(ctx, input)
+// Register is the resolver for the register field.
+func (r *mutationResolver) Register(ctx context.Context, input models.RegisterUserInput) (*models.TokenResponse, error) {
+	panic(fmt.Errorf("not implemented: Login - login"))
+	// return r.Impl.CreateUser(ctx, input)
 }
 
-// UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, input *models.UserInput) (*models.User, error) {
-	return r.Impl.UpdateUser(ctx, *input)
-}
-
-// Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) (*models.UsersPayload, error) {
-	return r.Impl.Users(ctx)
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input models.LoginInput) (*models.TokenResponse, error) {
+	panic(fmt.Errorf("not implemented: Login - login"))
 }
 
 // Me is the resolver for the me field.

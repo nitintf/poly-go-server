@@ -14,7 +14,7 @@ linters-settings: # More informations here: https://golangci-lint.run/usage/conf
       - diagnostic
       - experimental
   goimports:
-    local-prefixes: github.com/nitintf/graph-go
+    local-prefixes: poly-go-server
   unparam:
     check-exported: true
   goconst:

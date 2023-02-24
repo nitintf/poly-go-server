@@ -1,9 +1,7 @@
-scalar Time
-
 type Groups {
 	id: ID!
 	groupName: String
+	description: String
 	createdAt: Time
 	updatedAt: Time
-	description: String
 }
